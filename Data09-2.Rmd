@@ -1,0 +1,34 @@
+---
+title: "Week 2 Project"
+author: "Ed Chen"
+date: "August 12, 2018"
+output: html_document
+runtime: leaflet
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+# Load required packages 
+list.of.packages <- c("stringi", "leaflet")
+    new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+
+if( length(new.packages) ) { install.packages(new.packages) }
+```
+
+```{r}
+## "Week 2 Project"
+### Author: "Ed Chen"
+### Date: "August 12, 2018"
+
+library(leaflet)
+
+map_data <- data.frame(
+lat = c(40.7794, 40.780556),
+lng = c(-73.9631, -73.974722))
+
+my_map <- map_data %>% leaflet() %>% 
+  addTiles() %>%
+  addMarkers()
+my_map
+```
