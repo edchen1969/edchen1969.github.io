@@ -1,0 +1,47 @@
+---
+title: "Week 3 Assignment"
+author: "Ed Chen"
+date: "August 19, 2018"
+output: html_document
+runtime: plotly
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, echo=FALSE, message=FALSE}
+# print( "Checking packages and files ............ " )
+
+# Load required packages 
+list.of.packages <- c("plotly", "ggplot2")
+    new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+
+if( length(new.packages) ) { install.packages(new.packages) }
+library("plotly")
+```
+
+```{r, echo=FALSE, message=FALSE}
+# By specifying the 'size' argument you can make each point in your scatterplot a difference size
+fx <- list(
+  family = "Arial, sans-serif",
+  size = 18,
+  color = "black"
+)
+ax <- list(
+  title = "Automobile Weight (Tons)",
+  titlefont = fx,
+  showticklabels = TRUE
+)
+ay <- list(
+  title = "Fuel Economy (Miles/Gal)",
+  titlefont = fx,
+  showticklabels = TRUE
+)
+legendtitle <- list(yref='paper', xref="paper", y=1.05, x=1.1, text="Cylinders",showarrow=F)
+
+
+# legend(title = "Cylinders")
+plot_ly(mtcars, x = mtcars$wt, y = mtcars$mpg, type = 'scatter', mode = 'markers', color = as.factor(mtcars$cyl)) %>%
+  layout(xaxis = ax, yaxis = ay, showlegend = TRUE, title = "Automobile Fuel Economy Vs Weight", annotations = legendtitle)
+```
