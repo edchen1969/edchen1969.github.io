@@ -1,0 +1,112 @@
+---
+title: "Developing Data Products Presentation"
+author: "Ed Chen"
+date: "August 27, 2018"
+output: ioslides_presentation
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## 1: Twin-engined Jetliners Dominate Air Travel
+
+- In General, Twin-Engined Jetliners Are More Economical To Operate
+  Than Four-engined Jetliners (Less Maintenance and Fuel Cost)
+
+- Over Long Distances, The Latest Twin-Engined Airliners Fly The Farthest,
+  Enabling Point-To-Point Direct Flights Between All Of The World's Major Cities
+
+- Over Short Distances or Domestic Flights, More Flights Of Economical
+  Small Twin-Engined Airliners Preferred Over Fewer Flights of Larger Airliners
+
+
+## 2 Data Table Description
+
+The Airliner Data Compares The Following
+
+- Plane Model
+- Maker (Airbus or Boeing)
+- Number of Passengers
+- Length (in meters, m)
+- MTOW (metric ton)
+- Fuel capacity (liters)
+- Range (in km)
+- Maximum Thrust per engine (kN)
+
+
+## 3 Airliner Data
+
+```{r, echo=FALSE}
+label <- c("Model","Builder","Seating","Length (m)","Wingspan (m)","Cabin Width (m)","Tail Height (m)","MTOW (metric ton)","OEW (metric ton)","Fuel Capacity (l)","Cruising Speed (km/h)","Range (km)","Takeoff run (m)","Service ceiling (m)","Maximum Thrust Per Engine (kN)")
+
+df <- data.frame(
+  name = c("A318","A319","A320","A321","737-600","737-700","737-800","737-900ER","737 MAX 7","737 MAX 8","737 MAX 9","737 MAX 10","A330-200","A330-300","A330-800neo","A330-900neo","777-200","777-200ER","777-200LR","777-300","777-300ER","787-8","787-9","787-10","A350-900","A350-1000","A380-800","747-400","747-400ER"),
+  maker = c("Airbus","Airbus","Airbus","Airbus","Boeing","Boeing","Boeing","Boeing","Boeing","Boeing","Boeing","Boeing","Boeing","Airbus","Airbus","Airbus","Boeing","Boeing","Boeing","Boeing","Boeing","Boeing","Boeing","Boeing","Airbus","Airbus","Airbus","Boeing","Boeing"),
+  pass = c(107,124,150,185,108,128,160,177,138,162,178,188,246,300,257,287,305,301,301,368,365,242,290,330,315,369,575,416,416),
+  leng = c(31.44,33.84,37.57,44.51,31.24,33.63,39.47,42.11,35.56,39.52,42.16,43.8,58.82,63.67,58.82,63.66,63.73,63.73,63.73,73.86,73.86,56.72,62.81,68.28,66.8,73.78,72.72,70.66,70.66),
+  wing = c(34.1,35.8,35.8,35.8,34.32,34.32,34.32,34.32,35.92,35.92,35.92,35.92,60.3,60.3,64,64,60.93,63.73,64.8,60.93,64.8,60.12,60.12,60.12,64.75,64.75,79.75,64.44,64.44),
+  widcab = c(3.7,3.7,3.7,3.7,3.54,3.54,3.54,3.54,3.54,3.54,3.54,3.54,5.18,5.18,5.26,5.26,5.86,5.86,5.86,5.86,5.86,5.49,5.49,5.49,5.61,5.61,7.14,6.08,6.08),
+  hgt = c(12.56,11.76,11.76,11.76,12.57,12.57,12.55,12.55,12.3,12.3,12.3,12.3,17.39,16.79,17.39,16.79,18.5,18.5,18.6,18.5,18.5,16.92,17.02,17.02,17.05,17.05,24.09,19.4,19.4),
+  mtow = c(68,75.5,78,93.5,65.544,70.08,79.016,85.139,80.286,82.191,88.314,88.314,242,242,251,251,247.2,297.55,347.452,299.37,351.533,227.93,254.011,254.011,280,316,575,396.89,412.775),
+  emptyw = c(39.5,40.8,42.6,48.5,36.378,37.648,41.413,44.677,45.07,45.07,45.07,45.07,120.6,129.4,132,137,135.85,138.1,145.15,160.53,167.829,119.95,128.85,135.5,142.4,158.8,277,183.52,187.01),
+  fuel = c(24210,30190,27200,30030,26022,26022,26022,29666,25817,25817,25817,25817,139090,139090,139090,139090,117340,171171,181283,171171,181283,126206,126372,126372,140795,158791,309735,216840,241140),
+  speed = c(829,829,829,829,838,834,842,844,839,839,839,839,871,871,918,918,892,892,892,892,892,903,903,903,950,950,903,933,933),
+  range = c(5750,6950,6100,5950,5991,5570,5436,5460,7130,5000,6570,6110,13450,11750,15094,13334,9700,13080,15843,11165,13649,13620,14140,11910,15000,15600,14800,13490,14045),
+  runway = c(1780,1850,2100,2100,1878,2042,2316,3000,3000,3000,3000,3000,2770,2770,2770,2770,2440,3380,2800,3230,3050,2600,2800,2800,2600,2600,3000,2955,3260),
+  ceil = c(12500,12500,12500,12500,12497,12497,12497,12497,12000,12000,12000,12000,12500,12500,12500,12500,13100,13100,13100,13100,13100,13100,13100,13100,13100,13100,13100,NA,NA),
+  thrust = c(106,120,120,147,133,149,161,161,130,130,130,130,316,316,324,324,343,417,513,440,513,280,320,340,374.5,431.5,356.81,282,282)
+)
+
+label2 <- c("Model","Builder","Seating","Length (m)","MTOW (metric ton)","Fuel Capacity (l)","Range (km)","Maximum Thrust Per Engine (kN)")
+
+df2 <- data.frame(name = df$name, maker = df$maker, pass = df$pass, leng = df$leng, mtow = df$mtow, fuel = df$fuel, range = df$range, thrust = df$thrust)
+
+head(df2)
+```
+
+```{r, echo=FALSE}
+# Load required packages
+list.of.packages <- c("shiny", "miniUI")
+   new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+
+if( length(new.packages) ) { install.packages(new.packages) }
+
+library(shiny)
+library(miniUI)
+
+```
+
+
+## Comparing Airliners By Parameter
+
+```{r, echo=FALSE}
+label3 <- c("Seating","Length (m)","MTOW (metric ton)","Fuel Capacity (l)","Range (km)","Maximum Thrust Per Engine (kN)")
+
+inputPanel(
+  selectInput("param", label = "Parameter:",
+              choices = label3, selected = "Seating")
+
+#  sliderInput("bw_adjust", label = "Bandwidth adjustment:",
+#              min = 0.2, max = 2, value = 1, step = 0.2)
+)
+
+renderPlot(
+
+if (input$param == "Seating") {  
+  barplot(df2$pass, plot = TRUE, names.arg = df2$name, xlab = "Model", ylab = input$param, main = input$param, cex.names = 0.5)
+} else if (input$param == "Length (m)") {
+  barplot(df2$leng, plot = TRUE, names.arg = df2$name, xlab = "Model", ylab = input$param, main = input$param, cex.names = 0.5)
+} else if (input$param == "MTOW (metric ton)") {
+  barplot(df2$mtow, plot = TRUE, names.arg = df2$name, xlab = "Model", ylab = input$param, main = input$param, cex.names = 0.5)
+} else if (input$param == "Fuel Capacity (l)") {
+  barplot(df2$fuel, plot = TRUE, names.arg = df2$name, xlab = "Model", ylab = input$param, main = input$param, cex.names = 0.5)
+} else if (input$param == "Range (km)") {
+  barplot(df2$range, plot = TRUE, names.arg = df2$name, xlab = "Model", ylab = input$param, main = input$param, cex.names = 0.5)
+} else {
+  barplot(df2$thrust, plot = TRUE, names.arg = df2$name, xlab = "Model", ylab = input$param, main = input$param, cex.names = 0.5)
+}
+)
+
+```
